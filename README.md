@@ -6,14 +6,14 @@ billion in inventory at risk). The repo ships everything you need to
 build a 5-page operations dashboard in **under 2 hours** in either tool:
 
 - A **single denormalized CSV** (`supply_chain_flat.csv`, ~30 MB,
-  280,800 rows) — joins are pre-done, dimensions and measures are
+  280,800 rows) : joins are pre-done, dimensions and measures are
   side-by-side, no data-model modelling required at import time.
 - A **page-by-page build guide** ([`DASHBOARD_BUILD_GUIDE.md`](DASHBOARD_BUILD_GUIDE.md))
-  — exactly which fields go where on each of 5 pages.
+  : exactly which fields go where on each of 5 pages.
 - A **DAX measures reference** ([`DAX_measures.md`](DAX_measures.md)) for
   Power BI, with copy-paste-ready code for 18 measures.
 - A **Tableau calculated-fields reference**
-  ([`Tableau_calc_fields.md`](Tableau_calc_fields.md)) — equivalent
+  ([`Tableau_calc_fields.md`](Tableau_calc_fields.md)) : equivalent
   formulas for Tableau Desktop / Tableau Public.
 
 The five pages cover the full operations review:
@@ -41,7 +41,7 @@ The five pages cover the full operations review:
 
 ## The data
 
-`supply_chain_flat.csv` — one row per (date, site, part) with all
+`supply_chain_flat.csv` : one row per (date, site, part) with all
 dimensions and pre-computed measures.
 
 | Column | Type | Description |
