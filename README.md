@@ -7,13 +7,13 @@ fact table joined and rolled up in Python (`pandas`).
 
 The five pages cover the full operations review:
 
-| Page | Audience | Key questions answered |
-|---|---|---|
-| **Executive Summary** | VP / GM | Inventory at risk? Stockouts trending up? |
-| **Inventory Health** | Materials manager | Which part-families are running thin? |
-| **Supplier Performance** | Procurement | Which suppliers are missing PO due dates? |
-| **Quality** | Quality engineering | Where are defects concentrated? |
-| **Risk Watch** | Operations leadership | Which critical parts need intervention now? |
+| Page | Key questions answered |
+|---|---|
+| **Executive Summary** | Inventory at risk? Stockouts trending up? |
+| **Inventory Health** | Which part-families are running thin? |
+| **Supplier Performance** | Which suppliers are missing PO due dates? |
+| **Quality** |  Where are defects concentrated? |
+| **Risk Watch** | Which critical parts need intervention now? |
 
 ## What's demonstrated
 
