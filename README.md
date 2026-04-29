@@ -1,20 +1,9 @@
 # Supply Chain Operations Dashboard
 
-A **Power BI / Tableau dashboard project** built on top of a pre-flattened
-aerospace-supply-chain dataset (300 parts × 6 sites × 156 weeks, ~13.5
-billion in inventory at risk). The repo ships everything you need to
-build a 5-page operations dashboard in **under 2 hours** in either tool:
-
-- A **single denormalized CSV** (`supply_chain_flat.csv`, ~30 MB,
-  280,800 rows): joins are pre-done, dimensions and measures are
-  side-by-side, no data-model modelling required at import time.
-- A **page-by-page build guide** ([`DASHBOARD_BUILD_GUIDE.md`](DASHBOARD_BUILD_GUIDE.md)):
-  exactly which fields go where on each of 5 pages.
-- A **DAX measures reference** ([`DAX_measures.md`](DAX_measures.md)) for
-  Power BI, with copy-paste-ready code for 18 measures.
-- A **Tableau calculated-fields reference**
-  ([`Tableau_calc_fields.md`](Tableau_calc_fields.md)): equivalent
-  formulas for Tableau Desktop / Tableau Public.
+A **5-page Power BI dashboard** for an aerospace MRO supply chain — 300
+parts × 6 sites × 156 weeks of inventory, purchase order, and quality
+data, ~$13.5B in inventory under management. Built on a single denormalised
+fact table joined and rolled up in Python (`pandas`).
 
 The five pages cover the full operations review:
 
@@ -26,18 +15,18 @@ The five pages cover the full operations review:
 | **Quality** | Quality engineering | Where are defects concentrated? |
 | **Risk Watch** | Operations leadership | Which critical parts need intervention now? |
 
-## What's actually demonstrated
+## What's demonstrated
 
 | Concept | Used in |
 |---|---|
 | **Time-intelligence functions** (rolling 4-week, MoM, YoY) | Pages 1, 2, 4 |
-| **Filter-context manipulation** (CALCULATE / FIXED / LOD) | DAX measures M03, M07, M12 |
-| **Conditional aggregation** | M01, M04, M09 |
-| **Heat maps** with conditional colour by criticality | Page 2 |
-| **Pareto / 80-20 analysis** | Page 4 |
-| **KPI cards with trend sparklines** | Page 1 |
-| **Cross-page filtering / drill-through** | Pages 3, 5 |
-| **Variance-of-actuals vs forecast** | Page 2 |
+| **Filter-context manipulation** (`CALCULATE`, `ALL`, `DATESINPERIOD`) | KPI cards, latest-week measures |
+| **Conditional aggregation** | Stockout counts, critical-at-risk counts |
+| **Heat-map matrix** with conditional colour by Days-of-Supply | Page 2 |
+| **Pareto / 80-20 analysis** with cumulative-share line | Page 4 |
+| **Composite risk score** combining criticality, stockout, defects, supplier risk | Page 5 |
+| **Cross-page filtering and drill-through** | Pages 3, 5 |
+| **Forecast vs actuals overlay** | Page 2 |
 
 ## The data
 
@@ -68,37 +57,21 @@ dimensions and pre-computed measures.
 | pending_po_qty | int | Outstanding POs not yet received as-of date |
 | defects_l4w | int | Quality incidents in last 4 weeks |
 
-## Get it running
+## Open the dashboard
 
-### Power BI Desktop (free, Windows-only)
-
-1. Download Power BI Desktop from `aka.ms/pbiSingleInstaller`.
-2. Open Power BI → **Get Data** → **Text/CSV** → select
-   `supply_chain_flat.csv`.
-3. Click **Transform Data** → confirm types (`date` should be Date, the
-   numerics should be Decimal/Whole, booleans are Text).
-4. Click **Close & Apply**.
-5. Follow [`DASHBOARD_BUILD_GUIDE.md`](DASHBOARD_BUILD_GUIDE.md) page by
-   page.
-
-### Tableau Public (free, cross-platform)
-
-1. Download Tableau Public from `public.tableau.com/en-us/s/download`.
-2. **Connect** → **Text File** → select `supply_chain_flat.csv`.
-3. Confirm column types in the Data Source pane.
-4. Follow the Tableau notes inside
-   [`DASHBOARD_BUILD_GUIDE.md`](DASHBOARD_BUILD_GUIDE.md) and use the
-   formulas in [`Tableau_calc_fields.md`](Tableau_calc_fields.md).
+Install Power BI Desktop (free, Windows) from `aka.ms/pbiSingleInstaller`,
+then open [`Supply_Chain_Dashboard.pbix`](Supply_Chain_Dashboard.pbix).
+The `.pbix` ships with the data embedded; click **Home → Refresh** to
+re-read `supply_chain_flat.csv` from disk.
 
 ## Repository layout
 
 ```
 .
+├── Supply_Chain_Dashboard.pbix    ← the 5-page dashboard
 ├── supply_chain_flat.csv          ← 280,800-row BI-ready dataset
 ├── prepare_data.py                ← regenerates the CSV from source CSVs
-├── DASHBOARD_BUILD_GUIDE.md       ← page-by-page build instructions
-├── DAX_measures.md                ← 18 Power BI measures, copy-paste-ready
-├── Tableau_calc_fields.md         ← Tableau equivalents
+├── enhance_for_demo.py            ← injects demo-friendly values into the latest 4 weeks
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -107,9 +80,9 @@ dimensions and pre-computed measures.
 ## Regenerating the data
 
 The flattened CSV is derived from the four-table source dataset that
-ships with the [Supplier Risk & Lead Time
-Predictor](https://github.com/masonsau0/Supplier-Risk-Lead-Time-Predictor)
-project. To regenerate:
+ships with the [Aerospace Supplier Risk &amp; Lead Time
+Predictor](https://github.com/masonsau0/Aerospace-Supplier-Risk-Lead-Time-Predictor)
+project.
 
 ```bash
 pip install -r requirements.txt
@@ -124,8 +97,7 @@ The script joins the four source tables, computes `inventory_value`,
 ## Stack
 
 **Power BI Desktop** (DAX, time-intelligence, conditional formatting) ·
-**Tableau Public** (LOD expressions, calculated fields) · **Python**
-(`pandas`) for the data preparation pipeline · the underlying ML risk
-scoring lives in the sibling [Supplier Risk
-Predictor](https://github.com/masonsau0/Supplier-Risk-Lead-Time-Predictor)
+**Python** (`pandas`) for the data preparation pipeline · the underlying
+ML risk scoring lives in the sibling [Aerospace Supplier Risk
+Predictor](https://github.com/masonsau0/Aerospace-Supplier-Risk-Lead-Time-Predictor)
 repo.
